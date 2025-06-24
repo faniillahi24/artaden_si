@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\FaniFasilitas;
+use App\Models\FaniReservasi;
+use App\Http\Controllers\Controller;
+
+class FrontendController extends Controller
+{
+    public function beranda() {
+        return view('frontend.beranda');
+    }
+
+    public function fasilitas() {
+        $fasilitas = FaniFasilitas::all();
+        return view('frontend.fasilitas', compact('fasilitas'));
+    }
+
+    public function harga() {
+        $tiketMasuk = 15000;
+        $tendaList = FaniFasilitas::where('tipe_fasilitas', 'sewa')->get();
+        return view('frontend.harga', compact('tiketMasuk', 'tendaList'));
+    }
+
+    public function formReservasi() {
+        $fasilitas = FaniFasilitas::where('tipe_fasilitas', 'sewa')->get();
+        return view('frontend.reservasi', compact('fasilitas'));
+    }
+
+    public function simpanReservasi(Request $request) {
+        $request->validate([
+            'nama_pengunjung' => 'required',
+            'email' => 'required|email',
+            'no_hp' => 'required',
+            'tanggal_kunjungan' => 'required|date',
+            'jumlah_orang' => 'required|integer|min:1',
+        ]);
+
+        $total = 15000 * $request->jumlah_orang;
+
+        $reservasi = FaniReservasi::create([
+            'nama_pengunjung' => $request->nama_pengunjung,
+            'email' => $request->email,
+            'no_hp' => $request->no_hp,
+            'tanggal_kunjungan' => $request->tanggal_kunjungan,
+            'jumlah_orang' => $request->jumlah_orang,
+            'total_biaya' => 0,
+            'status' => 'pending',
+        ]);
+
+        if ($request->fasilitas) {
+            foreach ($request->fasilitas as $i => $fasilitas_id) {
+                $jumlah = $request->jumlah_fasilitas[$i];
+                $fasilitas = FaniFasilitas::find($fasilitas_id);
+                $subtotal = $fasilitas->harga * $jumlah;
+
+                $reservasi->fasilitas()->attach($fasilitas_id, [
+                    'jumlah' => $jumlah,
+                    'subtotal' => $subtotal,
+                ]);
+
+                $total += $subtotal;
+            }
+        }
+
+        $reservasi->update(['total_biaya' => $total]);
+        return redirect()->route('cek_status')->with('success', 'Reservasi berhasil. Kode: ' . $reservasi->id);
+    }
+
+    public function cekStatus(Request $request) {
+        $data = null;
+        if ($request->kode) {
+            $data = FaniReservasi::with('fasilitas')->find($request->kode);
+        }
+        return view('frontend.cek_status', compact('data'));
+    }
+
+    public function kontak() {
+        return view('frontend.kontak');
+    }
+
+    public function kirimUlasan(Request $request) {
+        // Bisa disimpan ke tabel ulasan
+    }
+}
