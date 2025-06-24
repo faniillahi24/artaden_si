@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\AdminFasilitasController;
 use App\Http\Controllers\AdminReservasiController;
-use App\Http\Controllers\FrontendController;
-use Illuminate\Support\Facades\Route;
 
 
 
