@@ -32,8 +32,6 @@
                     </td>
                     <td>Rp{{ number_format($item->harga ?? 0, 0, ',', '.') }}</td>
                     <td>{{ ucfirst($item->tipe_fasilitas) }}</td>
-                    <td>{{ $item->created_at }}</td>
-                    <td>{{ $item->updated_at }}</td>
                 </tr>
             @empty
                 <tr>

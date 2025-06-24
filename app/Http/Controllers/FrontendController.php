@@ -21,8 +21,8 @@ class FrontendController extends Controller
 
     public function harga() {
         $tiketMasuk = 15000;
-        $tendaList = FaniFasilitas::where('tipe_fasilitas', 'sewa')->get();
-        return view('frontend.harga', compact('tiketMasuk', 'tendaList'));
+        $fasilitas = FaniFasilitas::where('tipe_fasilitas', 'sewa')->get();
+        return view('frontend.harga', compact('tiketMasuk', 'fasilitas'));
     }
 
     public function formReservasi() {
@@ -85,4 +85,9 @@ class FrontendController extends Controller
     public function kirimUlasan(Request $request) {
         // Bisa disimpan ke tabel ulasan
     }
+    public function reservasi()
+{
+    $reservasi = Reservasi::all(); // Ambil semua data reservasi dari database
+    return view('frontend.reservasi', compact('reservasi'));
+}
 }
