@@ -1,8 +1,14 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+
+use App\Http\Controllers\AdminFasilitasController;
+use App\Http\Controllers\AdminReservasiController;
+use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\FrontendController;
+
+
 
 Route::get('/', [FrontendController::class, 'beranda']);
 Route::get('/fasilitas', [FrontendController::class, 'fasilitas']);
@@ -21,3 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/admin/users', AdminUserController::class);
     Route::get('/admin/laporan', [AdminController::class, 'laporan']);
 });
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
