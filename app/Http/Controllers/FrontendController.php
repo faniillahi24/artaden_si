@@ -10,7 +10,8 @@ use App\Http\Controllers\Controller;
 class FrontendController extends Controller
 {
     public function beranda() {
-        return view('frontend.beranda');
+         $fasilitas = FaniFasilitas::where('tipe_fasilitas', 'sewa')->get();
+         return view('frontend.beranda', compact('fasilitas'));
     }
 
     public function fasilitas() {
