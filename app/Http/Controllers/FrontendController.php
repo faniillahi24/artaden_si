@@ -7,6 +7,7 @@ use App\Models\FaniFasilitas;
 use App\Models\FaniReservasi;
 use App\Http\Controllers\Controller;
 
+
 class FrontendController extends Controller
 {
     public function beranda() {
@@ -87,7 +88,7 @@ class FrontendController extends Controller
     }
     public function reservasi()
 {
-    $reservasi = Reservasi::all(); // Ambil semua data reservasi dari database
+    $reservasi = FaniReservasi::all(); // Ambil semua data reservasi dari database
     return view('frontend.reservasi', compact('reservasi'));
 }
 }

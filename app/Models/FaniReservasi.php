@@ -2,15 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FaniReservasi extends Model
+class Reservasi extends Model
 {
-    protected $fillable = [];
+    use HasFactory;
 
-    public function fasilitas()
-    {
-        return $this->belongsToMany(FaniFasilitas::class, 'fani_reservasi_fasilitas')
-                    ->withPivot('jumlah', 'subtotal');
-    }
+    protected $table = 'reservasi';
+    protected $primaryKey = 'id';
+    
+    protected $fillable = [
+        'nama_pengunjung',
+        'email',
+        'no_hp',
+        'tanggal_kunjungan',
+        'jumlah_orang',
+        'total_biaya',
+        'status',
+    ];
+
+    protected $casts = [
+        'tanggal_kunjungan' => 'date',
+    ];
 }
