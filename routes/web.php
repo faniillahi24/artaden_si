@@ -37,8 +37,8 @@ Route::middleware(['auth',  AdminMiddleware::class])->group(function () {
     Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
     
     // Resource Routes
-    Route::resource('/fasilitas', AdminFasilitasController::class);
-    Route::resource('/reservasi', AdminReservasiController::class);
+    // Route::resource('/fasilitas', AdminFasilitasController::class);
+    // Route::resource('/reservasi', AdminReservasiController::class);
     Route::resource('/users', AdminUserController::class);
 });
 

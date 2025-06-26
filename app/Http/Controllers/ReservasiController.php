@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FaniFasilitas;
+ // Tambahkan jika menggunakan fasilitas
 use App\Models\FaniReservasi;
-use App\Models\Fasilitas; // Tambahkan jika menggunakan fasilitas
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon; // Untuk manipulasi tanggal
 
@@ -16,9 +17,9 @@ class ReservasiController extends Controller
     public function create()
     {
         // Jika perlu menampilkan daftar fasilitas
-        $fasilitas = Fasilitas::where('status', 'tersedia')->get();
+        $fasilitas = FaniFasilitas::all();
         
-        return view('reservasi', [
+        return view('frontend.reservasi', [
             'fasilitas' => $fasilitas,
             'min_date' => Carbon::today()->format('Y-m-d') // Untuk validasi HTML5
         ]);
@@ -71,7 +72,7 @@ class ReservasiController extends Controller
      */
     public function checkStatusForm()
     {
-        return view('cek-status');
+        return view('frontend.cek_status');
     }
 
     /**
