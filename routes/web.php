@@ -44,4 +44,6 @@ Route::middleware(['auth',  AdminMiddleware::class])->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', fn () => 'Halo Admin!');
+    
+
 });
