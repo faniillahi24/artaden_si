@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FaniFasilitas extends Model
 {
+    
     protected $fillable = [];
 
     public function reservasi()

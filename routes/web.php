@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminFasilitasController;
 use App\Http\Controllers\AdminReservasiController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ReservasiController;
+use App\Http\Middleware\AdminMiddleware;
 
 // Frontend Routes
 Route::get('/', [FrontendController::class, 'beranda'])->name('beranda');
@@ -34,6 +35,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // Admin Routes (protected by auth and admin middleware)
 Route::middleware(['auth',  AdminMiddleware::class])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/fasilitas', [AdminController::class, 'fasilitas'])->name('fasilitas');
     Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
     
     // Resource Routes
@@ -42,8 +44,7 @@ Route::middleware(['auth',  AdminMiddleware::class])->group(function () {
     Route::resource('/users', AdminUserController::class);
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', fn () => 'Halo Admin!');
+// Route::middleware(['auth', 'admin'])->group(function () {
+//     Route::get('/admin', fn () => 'Halo Admin!');
     
-
-});
+// });
