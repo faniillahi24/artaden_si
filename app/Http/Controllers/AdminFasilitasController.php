@@ -38,7 +38,9 @@ class AdminFasilitasController extends Controller
         ]);
 
         FaniFasilitas::create($request->all());
-        return redirect('/admin/fasilitas')->with('success', 'Fasilitas berhasil ditambahkan.');
+
+        return redirect()->route('admin.fasilitas.index')
+        ->with('success', 'Fasilitas berhasil ditambahkan.');
  
     }
 

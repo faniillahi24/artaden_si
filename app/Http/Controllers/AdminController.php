@@ -34,14 +34,6 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('jumlahReservasi', 'pengunjungHariIni', 'tendaDisewa'));
     }
 
-    public function fasilitas()
-    {
-    // Ambil semua fasilitas dan hitung berapa kali digunakan dalam reservasi
-    $fasilitas = FaniFasilitas::withCount(['reservasi'])->get();
-
-    return view('admin.fasilitas', compact('fasilitas'));
-}
-
     /**
      * Menampilkan laporan bulanan
      */

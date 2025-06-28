@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <h2>Edit Fasilitas</h2>
-<form method="POST" action="{{ route('fasilitas.update', $fasilitas->id) }}">
+<form method="POST" action="{{ route('admin.fasilitas.update', $fasilitas->id) }}">
     @csrf @method('PUT')
     <div class="mb-3">
         <label>Nama Fasilitas</label>

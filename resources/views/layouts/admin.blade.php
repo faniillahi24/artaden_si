@@ -26,7 +26,7 @@
         .sidebar {
             width: var(--sidebar-width);
             min-height: 100vh;
-            background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
+            background: linear-gradient(180deg, var(--primary-color) 0%, #008080 100%);
             color: white;
             position: fixed;
             box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);

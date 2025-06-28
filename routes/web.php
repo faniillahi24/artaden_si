@@ -35,8 +35,10 @@ Route::post('/login', [AuthController::class, 'login']);
 // Admin Routes (protected by auth and admin middleware)
 Route::middleware(['auth',  AdminMiddleware::class])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/fasilitas', [AdminController::class, 'fasilitas'])->name('fasilitas');
     Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
+     Route::resource('admin/fasilitas', AdminFasilitasController::class)
+     ->names('admin.fasilitas');
+
     
     // Resource Routes
     // Route::resource('/fasilitas', AdminFasilitasController::class);
