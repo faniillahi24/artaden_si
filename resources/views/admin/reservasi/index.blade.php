@@ -12,9 +12,9 @@
             <td>{{ ucfirst($r->status) }}</td>
             <td>Rp{{ number_format($r->total_biaya) }}</td>
             <td>
-                <a href="{{ route('reservasi.show', $r->id) }}" class="btn btn-info btn-sm">Detail</a>
-                <a href="{{ route('reservasi.edit', $r->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form method="POST" action="{{ route('reservasi.destroy', $r->id) }}" style="display:inline">
+                <a href="{{ route('admin.reservasi.show', $r->id) }}" class="btn btn-info btn-sm">Detail</a>
+                <a href="{{ route('admin.reservasi.edit', $r->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form method="POST" action="{{ route('admin.reservasi.destroy', $r->id) }}" style="display:inline">
                     @csrf @method('DELETE')
                     <button onclick="return confirm('Hapus reservasi ini?')" class="btn btn-danger btn-sm">Hapus</button>
                 </form>

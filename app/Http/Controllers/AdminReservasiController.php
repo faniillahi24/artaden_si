@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FaniReservasi;
 
 class AdminReservasiController extends Controller
 {
@@ -28,8 +29,24 @@ class AdminReservasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+         // Validasi data input dari user
+    $data = $request->validate([
+        'nama' => 'required|string|max:255',
+        'tanggal' => 'required|date',
+        'no_telp' => 'required|string|max:20',
+        'fasilitas_id' => 'required|exists:fasilitas,id', // jika ada relasi
+        // Tambahkan field lain sesuai kolom tabel FaniReservasi
+    ]);
+
+    // Set status default
+    $data['status'] = 'pending';
+
+    // Simpan ke database
+    FaniReservasi::create($data);
+
+    // Redirect kembali dengan pesan sukses
+    return redirect()->back()->with('success', 'Reservasi berhasil dikirim!');
+ }
 
     /**
      * Display the specified resource.
@@ -55,7 +72,8 @@ class AdminReservasiController extends Controller
     public function update(Request $request, string $id)
     {
         $reservasi = FaniReservasi::findOrFail($id);
-        $reservasi->update([ 'status' => $request->status ]);
+        $reservasi->update([
+            'status' => $request->status ]);
         return redirect('/admin/reservasi')->with('success', 'Status reservasi diperbarui.');
     }
 

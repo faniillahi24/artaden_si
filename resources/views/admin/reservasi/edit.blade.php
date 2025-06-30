@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <h2>Edit Status Reservasi</h2>
-<form method="POST" action="{{ route('reservasi.update', $reservasi->id) }}">
+<form method="POST" action="{{ route('admin.reservasi.update', $reservasi->id) }}">
     @csrf @method('PUT')
     <div class="mb-3">
         <label>Status</label>

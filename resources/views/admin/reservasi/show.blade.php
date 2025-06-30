@@ -14,5 +14,5 @@
     @endforeach
 </ul>
 <p><strong>Total Biaya:</strong> Rp{{ number_format($data->total_biaya) }}</p>
-<a href="{{ route('reservasi.index') }}" class="btn btn-secondary">Kembali</a>
+<a href="{{ route('admin.reservasi.index') }}" class="btn btn-secondary">Kembali</a>
 @endsection

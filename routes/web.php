@@ -23,6 +23,7 @@ Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservas
 Route::get('/cek-status', [ReservasiController::class, 'checkStatusForm'])->name('reservasi.status');
 Route::get('/cek-status/search', [ReservasiController::class, 'checkStatus'])->name('reservasi.check');
 
+
 // Authentication Routes
 // Route::middleware(['autg'])->group(function () {
 // Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -38,6 +39,9 @@ Route::middleware(['auth',  AdminMiddleware::class])->group(function () {
     Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
      Route::resource('admin/fasilitas', AdminFasilitasController::class)
      ->names('admin.fasilitas');
+     Route::resource('admin/reservasi', AdminReservasiController::class)
+     ->names('admin.reservasi');
+
 
     
     // Resource Routes
