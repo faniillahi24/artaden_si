@@ -31,41 +31,54 @@ class ReservasiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_pengunjung' => 'required|string|max:100',
-            'email' => 'required|email|max:100',
-            'no_hp' => 'required|string|max:20|regex:/^[0-9]+$/',
-            'tanggal_kunjungan' => 'required|date|after_or_equal:today',
-            'jumlah_orang' => 'required|integer|min:1|max:20',
-            'fasilitas' => 'nullable|array',
-            'fasilitas.*' => 'exists:fasilitas,id',
-            'catatan' => 'nullable|string|max:500'
-        ]);
+        'nama_pengunjung' => 'required|string|max:100',
+        'email' => 'required|email',
+        'no_hp' => 'required|string',
+        'tanggal_kunjungan' => 'required|date|after_or_equal:today',
+        'jumlah_orang' => 'required|integer|min:1',
+        'fasilitas' => 'nullable|array',
+        'fasilitas.*' => 'exists:fani_fasilitas,id',
+        'jumlah_fasilitas' => 'nullable|array',
+    ]);
 
-        // Hitung total biaya jika belum dihitung di frontend
-        $totalBiaya = $this->hitungTotalBiaya($request->fasilitas, $request->jumlah_orang);
+    // Simpan data reservasi dulu
+    $reservasi = FaniReservasi::create([
+        'nama_pengunjung' => $validated['nama_pengunjung'],
+        'email' => $validated['email'],
+        'no_hp' => $validated['no_hp'],
+        'tanggal_kunjungan' => $validated['tanggal_kunjungan'],
+        'jumlah_orang' => $validated['jumlah_orang'],
+        'catatan' => $request->catatan,
+        'status' => 'pending',
+        'total_biaya' => 0, // akan dihitung di bawah
+    ]);
 
-        $reservasi = FaniReservasi::create([
-            'nama_pengunjung' => $validated['nama_pengunjung'],
-            'email' => $validated['email'],
-            'no_hp' => $validated['no_hp'],
-            'tanggal_kunjungan' => $validated['tanggal_kunjungan'],
-            'jumlah_orang' => $validated['jumlah_orang'],
-            'total_biaya' => $totalBiaya,
-            'catatan' => $validated['catatan'] ?? null,
-            'status' => 'pending',
-        ]);
+    $totalBiaya = 0;
 
-        // Jika ada fasilitas, simpan ke tabel pivot
-        if (!empty($validated['fasilitas'])) {
-            $reservasi->fasilitas()->attach($validated['fasilitas']);
+    // Simpan fasilitas jika ada
+    if (!empty($request->fasilitas)) {
+        foreach ($request->fasilitas as $fasilitasId) {
+            $jumlah = $request->jumlah_fasilitas[$fasilitasId] ?? 1;
+            $fasilitas = FaniFasilitas::find($fasilitasId);
+
+            $subtotal = $fasilitas->harga * $jumlah;
+            $totalBiaya += $subtotal;
+
+            $reservasi->fasilitas()->attach($fasilitasId, [
+                'jumlah' => $jumlah,
+                'subtotal' => $subtotal,
+            ]);
         }
-
-        // Kirim email notifikasi
-        // $this->kirimEmailKonfirmasi($reservasi);
-
-        return redirect()->route('reservasi.status', ['id' => $reservasi->id])
-            ->with('success', 'Reservasi berhasil dibuat. ID Reservasi Anda: ' . $reservasi->id);
     }
+
+    // Update total biaya
+    $reservasi->update([
+        'total_biaya' => $totalBiaya,
+    ]);
+
+    return redirect()->route('reservasi.status', ['id' => $reservasi->id])
+        ->with('success', 'Reservasi berhasil dikirim.');
+}
 
     /**
      * Menampilkan form cek status
@@ -80,27 +93,16 @@ class ReservasiController extends Controller
      */
     public function checkStatus(Request $request)
     {
-        $request->validate([
-            'search' => 'required|string|max:100'
-        ]);
+         $search = $request->input('search');
 
-        $search = $request->input('search');
-        
-        $reservasi = FaniReservasi::with('fasilitas')
-            ->where('id', $search)
-            ->orWhere('email', $search)
-            ->orWhere('no_hp', $search)
-            ->first();
+    // Cari berdasarkan email atau no_hp
+    $reservasi = FaniReservasi::where('email', $search)
+        ->orWhere('no_hp', $search)
+        ->latest()
+        ->first();
 
-        if (!$reservasi) {
-            return back()->with('error', 'Reservasi tidak ditemukan. Silakan cek kembali ID/email/nomor HP Anda.');
-        }
-
-        return view('cek-status-result', [
-            'reservasi' => $reservasi,
-            'search' => $search
-        ]);
-    }
+    return view('frontend.cek_status', compact('reservasi'));
+}
 
     /**
      * Menampilkan detail reservasi
@@ -116,14 +118,14 @@ class ReservasiController extends Controller
      */
     private function hitungTotalBiaya($fasilitasIds, $jumlahOrang)
     {
-        if (empty($fasilitasIds)) {
-            return 0;
-        }
+        $tarifDasar = 25000;
 
-        $total = Fasilitas::whereIn('id', $fasilitasIds)
-            ->sum('harga');
+    $totalFasilitas = 0;
+    if (!empty($fasilitasIds)) {
+        $totalFasilitas = FaniFasilitas::whereIn('id', $fasilitasIds)->sum('harga');
+    }
 
-        return $total * $jumlahOrang;
+    return ($tarifDasar + $totalFasilitas) * $jumlahOrang;
     }
 
     /**

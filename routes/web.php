@@ -20,8 +20,8 @@ Route::post('/ulasan', [FrontendController::class, 'kirimUlasan'])->name('kirim.
 // Reservasi Routes
 Route::get('/reservasi', [ReservasiController::class, 'create'])->name('reservasi.create');
 Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservasi.store');
-Route::get('/cek-status', [ReservasiController::class, 'checkStatusForm'])->name('reservasi.status');
-Route::get('/cek-status/search', [ReservasiController::class, 'checkStatus'])->name('reservasi.check');
+Route::get('/cek-status', [ReservasiController::class, 'checkStatus'])->name('reservasi.status');
+
 
 
 // Authentication Routes

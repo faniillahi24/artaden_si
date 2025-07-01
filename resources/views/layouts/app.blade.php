@@ -209,6 +209,9 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('kontak') ? 'active' : '' }}" href="/kontak">Kontak</a>
                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('login') ? 'active' : '' }}" href="/login">Login</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -244,6 +247,7 @@
                         <a href="/reservasi">Reservasi</a>
                         <a href="/cek-status">Cek Status</a>
                         <a href="/kontak">Kontak</a>
+                        <a href="/login">Login</a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">

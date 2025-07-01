@@ -29,7 +29,9 @@ class FaniReservasi extends Model
 
    public function fasilitas()
 {
-    return $this->belongsToMany(FaniFasilitas::class, 'fani_reservasi_fasilitas', 'reservasi_id', 'fasilitas_id');
+    return $this->belongsToMany(FaniFasilitas::class, 'fani_reservasi_fasilitas', 'reservasi_id', 'fasilitas_id')
+        ->withPivot('jumlah', 'subtotal')
+        ->withTimestamps(); 
 }
  
 }
