@@ -5,10 +5,17 @@
 @if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
 <a href="{{ route('admin.fasilitas.create') }}" class="btn btn-primary mb-3">+ Tambah Fasilitas</a>
 <table class="table">
-    <thead><tr><th>Nama</th><th>Tipe</th><th>Harga</th><th>Aksi</th></tr></thead>
+    <thead><tr><th>Foto</th><th>Nama</th><th>Tipe</th><th>Harga</th><th>Aksi</th></tr></thead>
     <tbody>
         @forelse($fasilitas as $item)
     <tr>
+        <td>
+             @if($item->foto)
+                    <img src="{{ asset('storage/fasilitas/' . $item->foto) }}" alt="Foto {{ $item->nama_fasilitas }}" width="100">
+                @else
+                    <span class="text-muted">-</span>
+                @endif
+        </td>
         <td>{{ $item->nama_fasilitas }}</td>
         <td>{{ ucfirst($item->tipe_fasilitas) }}</td>
         <td>{{ $item->harga !== null ? 'Rp '.number_format($item->harga,0,',','.') : '-' }}</td>

@@ -15,8 +15,8 @@
 @endif
 
 {{-- Form Tambah Fasilitas --}}
-<form method="POST" action="{{ route('admin.fasilitas.store') }}">
-    @csrf
+<form method="POST" action="{{ route('admin.fasilitas.store') }}" enctype="multipart/form-data">
+@csrf
 
     <div class="form-group">
         <label for="nama_fasilitas">Nama Fasilitas</label>
@@ -43,10 +43,11 @@
     </div>
 
     {{-- Optional: Upload foto jika ingin ditambahkan --}}
-    <div class="form-group">
-        <label for="foto">Foto</label>
-        <input type="file" name="foto" class="form-control">
-    </div>
+    <div class="mb-3">
+    <label class="form-label">Foto Fasilitas</label>
+    <input type="file" name="foto" class="form-control">
+</div>
+
 
     <button type="submit" class="btn btn-primary mt-3">Simpan</button>
 </form>
