@@ -45,7 +45,7 @@
       <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="nav">
         <ul class="navbar-nav ms-auto">
-          @foreach (['/' => 'Beranda', 'fasilitas' => 'Fasilitas', 'harga' => 'Harga', 'reservasi' => 'Reservasi', 'cek-status' => 'Cek Status', 'kontak' => 'Kontak', 'login' => 'Login'] as $url => $label)
+          @foreach (['/' => 'Beranda', 'fasilitas' => 'Fasilitas', 'reservasi' => 'Reservasi', 'cek-status' => 'Cek Status', 'kontak' => 'Kontak', 'login' => 'Login'] as $url => $label)
             <li class="nav-item">
               <a class="nav-link {{ request()->is($url) ? 'active' : '' }}" href="/{{ $url === '/' ? '' : $url }}">{{ $label }}</a>
             </li>

@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FrontendController;
-use App\Http\Controllers\AdminFasilitasController;
-use App\Http\Controllers\AdminReservasiController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ReservasiController;
-use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\AdminGaleriController;
+use App\Http\Controllers\AdminFasilitasController;
+use App\Http\Controllers\AdminReservasiController;
 
 // Frontend Routes
 Route::get('/', [FrontendController::class, 'beranda'])->name('beranda');
@@ -16,11 +17,12 @@ Route::get('/fasilitas', [FrontendController::class, 'fasilitas'])->name('fasili
 Route::get('/harga', [FrontendController::class, 'harga'])->name('harga');
 Route::get('/kontak', [FrontendController::class, 'kontak'])->name('kontak');
 Route::post('/ulasan', [FrontendController::class, 'kirimUlasan'])->name('kirim.ulasan');
-
+Route::get('/', [FrontendController::class, 'beranda'])->name('beranda');
 // Reservasi Routes
 Route::get('/reservasi', [ReservasiController::class, 'create'])->name('reservasi.create');
 Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservasi.store');
 Route::get('/cek-status', [ReservasiController::class, 'checkStatus'])->name('reservasi.status');
+Route::get('/galeri', [FrontendController::class, 'semuaGaleri'])->name('galeri.lengkap');
 
 
 
@@ -41,6 +43,8 @@ Route::middleware(['auth',  AdminMiddleware::class])->group(function () {
      ->names('admin.fasilitas');
      Route::resource('admin/reservasi', AdminReservasiController::class)
      ->names('admin.reservasi');
+      Route::resource('admin/galeri', AdminGaleriController::class)
+                ->names('admin.galeri');
 
 
     

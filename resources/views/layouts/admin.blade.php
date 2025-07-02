@@ -189,6 +189,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ request()->is('admin/galeri*') ? 'active' : '' }}" href="/admin/galeri">
+                    <i class="bi bi-calendar-check"></i>
+                    <span>Galeri</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}" href="/admin/users">
                     <i class="bi bi-people"></i>
                     <span>Pengguna</span>

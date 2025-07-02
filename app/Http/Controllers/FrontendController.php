@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Galeri;
 use Illuminate\Http\Request;
 use App\Models\FaniFasilitas;
 use App\Models\FaniReservasi;
@@ -12,7 +13,9 @@ class FrontendController extends Controller
 {
     public function beranda() {
          $fasilitas = FaniFasilitas::where('tipe_fasilitas', 'sewa')->get();
-         return view('frontend.beranda', compact('fasilitas'));
+          $galeri = Galeri::latest()->take(6)->get(); // Ambil 6 data terbaru
+          
+          return view('frontend.beranda', compact('fasilitas','galeri'));
     }
 
     public function fasilitas() {
@@ -91,4 +94,10 @@ class FrontendController extends Controller
     $reservasi = FaniReservasi::all(); // Ambil semua data reservasi dari database
     return view('frontend.reservasi', compact('reservasi'));
 }
+public function semuaGaleri()
+{
+    $galeri = Galeri::latest()->paginate(12);
+    return view('frontend.semua_galeri', compact('galeri'));
+}
+
 }

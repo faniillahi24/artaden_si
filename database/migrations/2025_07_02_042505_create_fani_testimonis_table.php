@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('galeri_fani', function (Blueprint $table) {
+        Schema::create('fani_testimonis', function (Blueprint $table) {
             $table->id();
-            $table->string('judul')->nullable();
-            $table->string('gambar'); 
             $table->timestamps();
         });
     }
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('galeri_fani');
+        Schema::dropIfExists('fani_testimonis');
     }
 };

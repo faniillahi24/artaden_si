@@ -39,29 +39,28 @@
   </div>
 </section>
 
-<!-- Gallery -->
-<section class="py-5">
-  <div class="container text-center">
-    <h2 class="fw-bold mb-4">Galeri Kami</h2>
-    <div class="row g-3">
-      @php
-        $galeri = [
-          'photo-1566073771259-6a8506099945',
-          'photo-1582738411706-bfc8e691d1c2',
-          'photo-1564501049412-61c2a3083791',
-          'photo-1602002418816-5c0aeef426aa',
-        ];
-      @endphp
-      @foreach ($galeri as $img)
-        <div class="col-6 col-md-3">
-          <div class="overflow-hidden rounded-3">
-            <img src="https://images.unsplash.com/{{ $img }}?auto=format&fit=crop&w=600&q=80" class="img-fluid w-100" style="height: 200px; object-fit: cover; transition: .4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
-          </div>
+<!-- Galeri -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Galeri Artaden</h2>
+        <div class="row g-3">
+            @forelse($galeri as $item)
+                <div class="col-md-4 col-lg-3">
+                    <div class="card shadow-sm border-0">
+                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="Galeri" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h6 class="mb-0 text-truncate">{{ $item->judul }}</h6>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <p class="text-muted text-center">Belum ada foto galeri tersedia.</p>
+            @endforelse
         </div>
-      @endforeach
+        <div class="text-center mt-4">
+            <a href="{{ route('galeri.lengkap') }}" class="btn btn-outline-primary">Lihat Semua Galeri</a>
+        </div>
     </div>
-    <a href="#" class="btn btn-outline-primary btn-lg mt-4">Lihat Galeri Lengkap</a>
-  </div>
 </section>
 
 <!-- Testimoni -->

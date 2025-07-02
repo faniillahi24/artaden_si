@@ -9,21 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('galeri_fani', function (Blueprint $table) {
-            $table->id();
-            $table->string('judul')->nullable();
-            $table->string('gambar'); 
-            $table->timestamps();
-        });
-    }
+        Schema::rename('galeri_fani','fani_galeri');
+            //
+        }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('galeri_fani');
+        Schema::rename('fani_galeri','galeri_fani');
     }
 };
