@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('fani_testimonis', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+             $table->string('nama');
+        $table->string('kota')->nullable();
+        $table->text('pesan');
+        $table->string('foto')->nullable(); // opsional, bisa upload foto
         });
     }
 
