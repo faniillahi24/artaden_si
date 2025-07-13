@@ -666,15 +666,9 @@
     <!-- Topbar -->
     <nav class="topbar">
         <div class="topbar-search">
-            <i class="bi bi-search"></i>
-            <input type="text" class="form-control" placeholder="Cari sesuatu...">
         </div>
 
         <div class="topbar-user">
-            <button class="notification-btn">
-                <i class="bi bi-bell"></i>
-                <span class="notification-badge">3</span>
-            </button>
 
             <div class="dropdown user-dropdown">
                 <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -688,10 +682,15 @@
                     <i class="bi bi-chevron-down ms-2"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                 <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item text-danger" style="background: none; border: none; width: 100%; text-align: left;">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </button>
+                    </form>
+                </li>
+   
                 </ul>
             </div>
         </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Laporan Bulan ' . $bulan)
 
@@ -27,12 +27,13 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ $r->nama_pengunjung ?? '-' }}</td>
                     <td>
-    @if ($r->fasilitas->count())
-        {{ $r->fasilitas->pluck('nama')->join(', ') }}
-    @else
-        -
-    @endif
-</td>
+                        @if ($r->fasilitas->isNotEmpty())
+                        {{ $r->fasilitas->pluck('nama_fasilitas')->filter()->join(', ') }}
+                        @else
+                        -
+                        @endif
+                    </td>
+
 
                     <td>{{ $r->created_at->format('d-m-Y') }}</td>
                     <td>Rp {{ number_format($r->total_biaya, 0, ',', '.') }}</td>
@@ -45,5 +46,6 @@
             @endforelse
         </tbody>
     </table>
+    <a href="{{ route('admin.laporan.unduh') }}" class="btn btn-primary mb-3">📥 Unduh PDF</a>
 </div>
 @endsection

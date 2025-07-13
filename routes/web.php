@@ -50,6 +50,13 @@ Route::middleware(['auth', 'role:admin,staff'])->group(function () {
     Route::resource('admin/reservasi', AdminReservasiController::class)->names('admin.reservasi');
     Route::resource('admin/galeri', AdminGaleriController::class)->names('admin.galeri');
     Route::get('/admin/laporan', [AdminController::class, 'laporan'])->name('laporan');
+    Route::get('/admin/laporan/unduh', [App\Http\Controllers\AdminController::class, 'unduhLaporan'])->name('admin.laporan.unduh');
+    Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout');
 
 });
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FaniFasilitas;
 use App\Models\FaniReservasi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon; // Tambahkan ini untuk menggunakan Carbon
 
 class AdminController extends Controller
@@ -45,7 +46,7 @@ class AdminController extends Controller
                     ->get();
 
         // Hitung total pendapatan jika ada kolom harga
-        $totalPendapatan = $data->sum('total_harga');
+        $totalPendapatan = $data->sum('total_biaya');
 
         return view('admin.laporan', [
             'data' => $data,
@@ -53,4 +54,21 @@ class AdminController extends Controller
             'bulan' => Carbon::now()->translatedFormat('F Y') // Format bulan tahun
         ]);
     }
+    public function unduhLaporan()
+{
+    $data = FaniReservasi::with('fasilitas')
+                ->whereMonth('created_at', Carbon::now()->month)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+    $totalPendapatan = $data->sum('total_biaya');
+
+    $pdf = Pdf::loadView('admin.laporan_pdf', [
+        'data' => $data,
+        'totalPendapatan' => $totalPendapatan,
+        'bulan' => Carbon::now()->translatedFormat('F Y')
+    ]);
+
+    return $pdf->download('laporan-reservasi-' . Carbon::now()->format('F-Y') . '.pdf');
+}
 }
