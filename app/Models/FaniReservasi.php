@@ -33,5 +33,10 @@ class FaniReservasi extends Model
         ->withPivot('jumlah', 'subtotal')
         ->withTimestamps(); 
 }
+//  public function user()
+// {
+//     return $this->belongsTo(User::class, 'id');
+// }
+
  
 }

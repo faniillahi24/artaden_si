@@ -39,7 +39,7 @@ class AdminController extends Controller
      */
     public function laporan()
     {
-        $data = FaniReservasi::with(['fasilitas', 'user'])
+        $data = FaniReservasi::with(['fasilitas'])
                     ->whereMonth('created_at', Carbon::now()->month)
                     ->orderBy('created_at', 'desc')
                     ->get();

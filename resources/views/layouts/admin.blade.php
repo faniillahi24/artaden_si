@@ -635,12 +635,19 @@
                     <span>Galeri</span>
                 </a>
             </li>
+            @php
+            $role = auth()->user()->role ?? null;
+            @endphp
+            
+            @if($role === 'admin')
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}" href="/admin/users">
+                <a class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}" href="/users">
                     <i class="bi bi-people"></i>
                     <span>Pengguna</span>
                 </a>
             </li>
+            @endif
+
         </ul>
 
         <div class="sidebar-divider"></div>
@@ -675,8 +682,8 @@
                         <i class="bi bi-person"></i>
                     </div>
                     <div class="user-info d-none d-md-block">
-                        <div class="user-name">Admin</div>
-                        <div class="user-role">Administrator</div>
+                      <div class="user-name">{{ auth()->user()->name ?? 'Guest' }}</div>
+                      <div class="user-role text-capitalize">{{ auth()->user()->role ?? 'User' }}</div>
                     </div>
                     <i class="bi bi-chevron-down ms-2"></i>
                 </button>
