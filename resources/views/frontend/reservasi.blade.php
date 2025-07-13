@@ -37,7 +37,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Jumlah Orang</label>
                         <input type="number" name="jumlah_orang" id="jumlah_orang" class="form-control" min="1" value="1" required>
-                        <small class="text-muted d-block mt-1">Tarif dasar Rp 25.000 / orang</small>
+                        <small class="text-muted d-block mt-1">Tarif dasar Rp 10.000 / orang</small>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
 
 @push('scripts')
 <script>
-    const tarifDasar = 25000; // Rp per orang
+    const tarifDasar = 10000; // Rp per orang
 
     function formatRupiah(number) {
         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);

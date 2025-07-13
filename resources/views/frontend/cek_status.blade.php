@@ -27,22 +27,20 @@
                 <div class="card border-0 shadow">
                     <div class="card-body p-5">
                         <h2 class="h3 fw-bold mb-4 text-center">Cek Status Reservasi Anda</h2>
-                        
+
                         <form method="GET" action="{{ route('reservasi.status') }}">
                             <div class="row g-3">
-                                <!-- Email atau Nomor HP -->
                                 <div class="col-md-12">
                                     <label for="search" class="form-label">Email atau Nomor Handphone <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="search" name="search" required>
                                 </div>
-                                
-                                <!-- Submit Button -->
+
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary btn-lg w-100">Cek Status</button>
                                 </div>
                             </div>
                         </form>
-                        
+
                         @if(isset($reservasi))
                             <div class="mt-5">
                                 <h3 class="h4 fw-bold mb-4">Detail Reservasi</h3>
@@ -74,32 +72,51 @@
                                                 <td>{{ $reservasi->jumlah_orang }} orang</td>
                                             </tr>
                                             <tr>
-                                                <th>Total Biaya</th>
-                                                <td>Rp {{ number_format($reservasi->total_biaya, 0, ',', '.') }}</td>
-                                            </tr>
-                                            <tr>
                                                 <th>Status</th>
                                                 <td>
-                                                    @if($reservasi->status == 'pending')
-                                                        <span class="badge bg-warning text-dark">Menunggu Konfirmasi</span>
-                                                    @elseif($reservasi->status == 'confirmed')
-                                                        <span class="badge bg-success">Terkonfirmasi</span>
-                                                    @elseif($reservasi->status == 'canceled')
-                                                        <span class="badge bg-danger">Dibatalkan</span>
-                                                    @else
-                                                        <span class="badge bg-secondary">{{ $reservasi->status }}</span>
-                                                    @endif
+                                                    @php
+                                                        $warna = match($reservasi->status) {
+                                                            'pending' => 'warning',
+                                                            'confirmed' => 'success',
+                                                            'canceled' => 'danger',
+                                                            default => 'secondary',
+                                                        };
+                                                    @endphp
+                                                    <span class="badge bg-{{ $warna }}">{{ ucfirst($reservasi->status) }}</span>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                
-                                @if($reservasi->status == 'pending')
-                                    <div class="alert alert-info mt-4">
-                                        <p class="mb-0">Reservasi Anda sedang dalam proses verifikasi. Silakan tunggu konfirmasi melalui email atau WhatsApp.</p>
-                                    </div>
+
+                                @if($reservasi->fasilitas->count())
+                                    <h5 class="mt-4 mb-3">Fasilitas yang Dipesan</h5>
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Nama Fasilitas</th>
+                                                <th>Jumlah</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($reservasi->fasilitas as $f)
+                                                <tr>
+                                                    <td>{{ $f->nama_fasilitas }}</td>
+                                                    <td>{{ $f->pivot->jumlah }}</td>
+                                                    <td>Rp {{ number_format($f->pivot->subtotal, 0, ',', '.') }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 @endif
+
+                                <div class="mt-3">
+                                    <h5 class="mb-1">Total Biaya</h5>
+                                    <p class="mb-0">Rp {{ number_format($reservasi->total_biaya, 0, ',', '.') }}</p>
+                                    <small class="text-muted">Sudah termasuk tiket masuk dan fasilitas tambahan</small>
+                                </div>
+
                             </div>
                         @elseif(request()->has('search'))
                             <div class="alert alert-warning mt-4">
@@ -114,21 +131,18 @@
 </section>
 
 <style>
-    .hero-section {
-        margin-top: -56px;
-    }
-    
-    .card {
-        border-radius: 15px;
-    }
-    
-    .table th {
-        background-color: #f8f9fa;
-    }
-    
-    .badge {
-        font-size: 0.9rem;
-        padding: 0.5em 0.75em;
-    }
+.hero-section {
+    margin-top: -56px;
+}
+.card {
+    border-radius: 15px;
+}
+.table th {
+    background-color: #f8f9fa;
+}
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5em 0.75em;
+}
 </style>
 @endsection

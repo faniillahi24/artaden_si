@@ -24,7 +24,7 @@ class AdminController extends Controller
     public function dashboard()
     {
         $jumlahReservasi = FaniReservasi::count();
-        $pengunjungHariIni = FaniReservasi::whereDate('tanggal_kunjungan', Carbon::today())->sum('jumlah_orang');
+        $pengunjungHariIni = FaniReservasi::whereDate('created_at', Carbon::today())->count();
         
         // Query untuk tenda disewa - pastikan relasi 'fasilitas' ada di model FaniReservasi
         $tendaDisewa = FaniReservasi::whereHas('fasilitas', function($query) {

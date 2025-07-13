@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\FaniFasilitas;
 use App\Models\FaniReservasi;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 
 class FrontendController extends Controller
@@ -15,8 +16,18 @@ class FrontendController extends Controller
          $fasilitas = FaniFasilitas::where('tipe_fasilitas', 'sewa')->get();
           $galeri = Galeri::latest()->take(6)->get(); // Ambil 6 data terbaru
           $testimonis = \App\Models\Testimoni::latest()->take(4)->get(); // ambil 3 testimoni
-          
-          return view('frontend.beranda', compact('fasilitas','galeri','testimonis'));
+         
+          // Tambahkan statistik
+    $jumlahReservasi = FaniReservasi::count();
+    $pengunjungHariIni = FaniReservasi::whereDate('created_at', Carbon::today())->count();
+    $tendaDisewa = FaniReservasi::whereHas('fasilitas', function ($q) {
+        $q->where('nama_fasilitas', 'like', '%tenda%');
+    })->count();
+
+          return view('frontend.beranda', compact(
+            'fasilitas','galeri','testimonis','jumlahReservasi',
+        'pengunjungHariIni',
+        'tendaDisewa'));
     }
 
     public function fasilitas() {

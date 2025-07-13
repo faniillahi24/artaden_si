@@ -53,7 +53,7 @@ class ReservasiController extends Controller
         'total_biaya' => 0, // akan dihitung di bawah
     ]);
 
-    $totalBiaya = 0;
+    $totalBiaya = $reservasi->jumlah_orang * 10000;
 
     // Simpan fasilitas jika ada
     if (!empty($request->fasilitas)) {
@@ -96,7 +96,8 @@ class ReservasiController extends Controller
          $search = $request->input('search');
 
     // Cari berdasarkan email atau no_hp
-    $reservasi = FaniReservasi::where('email', $search)
+    $reservasi = FaniReservasi::with('fasilitas')
+        ->where('email', $search)
         ->orWhere('no_hp', $search)
         ->latest()
         ->first();
