@@ -5,6 +5,12 @@
 @section('content')
 <div class="container">
     <h1 class="mt-4">Daftar Pengguna</h1>
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
     <a href="{{ route('admin.users.create') }}" class="btn btn-success mb-3">+ Tambah User</a>
     <table class="table table-bordered mt-3">
         <thead>
@@ -18,7 +24,7 @@
         </thead>
         <tbody>
            @foreach ($users as $i => $user)
-    <tr>
+           <tr>
         <td>{{ $i + 1 }}</td>
         <td>{{ $user->name }}</td>
         <td>{{ $user->email }}</td>

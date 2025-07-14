@@ -17,7 +17,7 @@ class AdminUserController extends Controller
             abort(403, 'Anda tidak memiliki akses.');
         }
 
-        $users = User::all();
+       $users = User::latest()->get(); // data baru muncul paling atas
         return view('admin.users.index', compact('users'));
     }
 
