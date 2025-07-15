@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 @section('content')
 <h2>Daftar Reservasi</h2>
-@if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <table class="table">
     <thead><tr><th>Nama</th><th>Tanggal</th><th>Status</th><th>Total</th><th>Aksi</th></tr></thead>
     <tbody>
