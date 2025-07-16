@@ -21,6 +21,8 @@ class FaniReservasi extends Model
         'jumlah_orang',
         'total_biaya',
         'status',
+        'metode_pembayaran',
+        'bukti_transfer',
     ];
 
     protected $casts = [

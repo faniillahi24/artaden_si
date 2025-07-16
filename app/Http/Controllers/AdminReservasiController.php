@@ -35,6 +35,7 @@ class AdminReservasiController extends Controller
         'tanggal' => 'required|date',
         'no_telp' => 'required|string|max:20',
         'fasilitas_id' => 'required|exists:fasilitas,id', // jika ada relasi
+        'metode_pembayaran' => 'required|in:transfer,cod',
         // Tambahkan field lain sesuai kolom tabel FaniReservasi
     ]);
 

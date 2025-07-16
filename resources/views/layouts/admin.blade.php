@@ -205,35 +205,7 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .topbar-search {
-            position: relative;
-            max-width: 400px;
-            flex: 1;
-            margin-right: 2rem;
-        }
-
-        .topbar-search input {
-            background: rgba(248, 250, 252, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 25px;
-            padding: 0.75rem 1rem 0.75rem 3rem;
-            width: 100%;
-            transition: var(--transition);
-        }
-
-        .topbar-search input:focus {
-            background: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .topbar-search i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-        }
+        
 
         .topbar-user {
             display: flex;
@@ -255,22 +227,6 @@
         .notification-btn:hover {
             background: rgba(37, 99, 235, 0.1);
             color: var(--primary-color);
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--danger-color);
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.4rem;
-            border-radius: 50%;
-            min-width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .user-dropdown .dropdown-toggle {
@@ -382,113 +338,8 @@
             padding: 1.5rem;
         }
 
-        /* ===== Stats Cards ===== */
-        .stats-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
 
-        .stats-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
-        }
-
-        .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .stats-card.primary::before {
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
-        }
-
-        .stats-card.success::before {
-            background: linear-gradient(90deg, var(--accent-color), #059669);
-        }
-
-        .stats-card.warning::before {
-            background: linear-gradient(90deg, var(--warning-color), #d97706);
-        }
-
-        .stats-card.danger::before {
-            background: linear-gradient(90deg, var(--danger-color), #dc2626);
-        }
-
-        .stats-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .stats-icon.primary {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(37, 99, 235, 0.05));
-            color: var(--primary-color);
-        }
-
-        .stats-icon.success {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
-            color: var(--accent-color);
-        }
-
-        .stats-icon.warning {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
-            color: var(--warning-color);
-        }
-
-        .stats-icon.danger {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
-            color: var(--danger-color);
-        }
-
-        .stats-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-
-        .stats-label {
-            color: #64748b;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .stats-change {
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        .stats-change.positive {
-            color: var(--accent-color);
-        }
-
-        .stats-change.negative {
-            color: var(--danger-color);
-        }
-
-        /* ===== Chart Container ===== */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin: 1rem 0;
-        }
+     
 
         /* ===== Table Styles ===== */
         .table {
@@ -534,29 +385,34 @@
 
         /* ===== Responsive ===== */
         @media (max-width: 768px) {
-            .sidebar {
-                margin-left: calc(-1 * var(--sidebar-width));
-            }
+    .sidebar {
+        left: -280px;
+        transition: var(--transition);
+    }
 
-            .main-content {
-                margin-left: 0;
-            }
+    .sidebar-toggled .sidebar {
+        left: 0;
+    }
 
-            .topbar {
-                left: 0;
-            }
+    .main-content {
+        margin-left: 0 !important;
+    }
 
-            .sidebar-toggled .sidebar {
-                margin-left: 0;
-            }
+    .topbar {
+        left: 0 !important;
+    }
 
-            .sidebar-toggled .main-content {
-                margin-left: var(--sidebar-width);
-            }
+    .sidebar-toggled .main-content {
+        margin-left: 0 !important;
+    }
 
-            .sidebar-toggled .topbar {
-                left: var(--sidebar-width);
-            }
+    .sidebar-toggled .topbar {
+        left: var(--sidebar-width) !important;
+    }
+
+    .topbar-search {
+        display: none;
+    }
 
             .topbar-search {
                 display: none;

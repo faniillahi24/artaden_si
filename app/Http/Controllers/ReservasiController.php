@@ -39,7 +39,16 @@ class ReservasiController extends Controller
         'fasilitas' => 'nullable|array',
         'fasilitas.*' => 'exists:fani_fasilitas,id',
         'jumlah_fasilitas' => 'nullable|array',
+         'metode_pembayaran' => 'required|in:Manual Transfer,Bayar di Lokasi',
+         'bukti_transfer' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);
+
+    $bukti = null;
+
+    // Jika metode pembayaran manual & ada file bukti
+    if ($request->metode_pembayaran === 'Manual Transfer' && $request->hasFile('bukti_transfer')) {
+        $bukti = $request->file('bukti_transfer')->store('bukti_transfer', 'public');
+    }
 
     // Simpan data reservasi dulu
     $reservasi = FaniReservasi::create([
@@ -51,6 +60,8 @@ class ReservasiController extends Controller
         'catatan' => $request->catatan,
         'status' => 'pending',
         'total_biaya' => 0, // akan dihitung di bawah
+        'metode_pembayaran' => $validated['metode_pembayaran'],
+        'bukti_transfer' => $bukti,
     ]);
 
     $totalBiaya = $reservasi->jumlah_orang * 10000;
@@ -137,4 +148,16 @@ class ReservasiController extends Controller
         // Implementasi pengiriman email
         // Mail::to($reservasi->email)->send(new ReservasiConfirmation($reservasi));
     }
+
+    public function cetakTiket($id)
+{
+    $reservasi = FaniReservasi::with('fasilitas')->findOrFail($id);
+
+    if ($reservasi->status !== 'disetujui') {
+        return redirect()->back()->with('error', 'Tiket hanya bisa dicetak jika sudah dikonfirmasi.');
+    }
+
+    return view('frontend.tiket', compact('reservasi'));
+}
+
 }

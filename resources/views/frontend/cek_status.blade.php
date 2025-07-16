@@ -3,146 +3,202 @@
 @section('title', 'Cek Status Reservasi - Pemandian Air Panas Artaden')
 
 @section('content')
+<style>
+    body {
+        background: #0f172a;
+        color: #fff;
+    }
+
+    .hero-section {
+        background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7)),
+                    url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 100px 0;
+    }
+
+    .card {
+        background: rgba(30, 41, 59, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        color: #fff;
+    }
+
+    .form-label, .form-control, .table-custom th, .table-custom td, p, h2, h5,  .alert {
+        color: #fff;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .btn-primary {
+        background: #4f46e5;
+        border: none;
+        padding: 10px 24px;
+        font-weight: 500;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background: #4338ca;
+    }
+
+    .badge {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 500;
+        color: #fff;
+    }
+
+    .badge-pending {
+        background: #f59e0b;
+    }
+
+    .badge-disetujui,
+    .badge-confirmed {
+        background: #10b981;
+    }
+
+    .badge-canceled {
+        background: #ef4444;
+    }
+
+    .total-box {
+        background: rgba(15, 23, 42, 0.6);
+        border-radius: 10px;
+        padding: 20px;
+        color: #fff;
+    }
+
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+        color: #fff;
+    }
+
+    .table-custom th, .table-custom td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .table-custom th {
+        font-weight: 600;
+    }
+
+    .alert-warning {
+        background-color: rgba(255, 193, 7, 0.2);
+        border: 1px solid rgba(255, 193, 7, 0.4);
+        color: #fff;
+    }
+</style>
+
+
 <!-- Hero Section -->
-<section class="hero-section position-relative">
-    <div class="container-fluid px-0">
-        <div class="hero-image" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center; background-size: cover; height: 60vh;">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <div class="col-lg-8 text-white text-center text-lg-start">
-                        <h1 class="display-3 fw-bold mb-4">Cek Status Reservasi</h1>
-                        <p class="lead mb-5">Masukkan email atau nomor handphone yang digunakan saat reservasi</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="hero-section text-center text-white">
+    <div class="container">
+        <h1 class="display-5 fw-bold mb-3">Cek Status Reservasi</h1>
+        <p class="lead">Masukkan email atau nomor handphone yang Anda gunakan saat reservasi</p>
     </div>
 </section>
 
-<!-- Check Status Section -->
+<!-- Main Content -->
 <section class="py-5">
-    <div class="container py-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card border-0 shadow">
-                    <div class="card-body p-5">
-                        <h2 class="h3 fw-bold mb-4 text-center">Cek Status Reservasi Anda</h2>
-
-                        <form method="GET" action="{{ route('reservasi.status') }}">
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label for="search" class="form-label">Email atau Nomor Handphone <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="search" name="search" required>
-                                </div>
-
-                                <div class="col-12 mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100">Cek Status</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        @if(isset($reservasi))
-                            <div class="mt-5">
-                                <h3 class="h4 fw-bold mb-4">Detail Reservasi</h3>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                            <tr>
-                                                <th width="30%">ID Reservasi</th>
-                                                <td>{{ $reservasi->id }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Nama Pengunjung</th>
-                                                <td>{{ $reservasi->nama_pengunjung }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Email</th>
-                                                <td>{{ $reservasi->email }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Nomor Handphone</th>
-                                                <td>{{ $reservasi->no_hp }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Tanggal Kunjungan</th>
-                                                <td>{{ \Carbon\Carbon::parse($reservasi->tanggal_kunjungan)->format('d F Y') }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Jumlah Orang</th>
-                                                <td>{{ $reservasi->jumlah_orang }} orang</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Status</th>
-                                                <td>
-                                                    @php
-                                                        $warna = match($reservasi->status) {
-                                                            'pending' => 'warning',
-                                                            'confirmed' => 'success',
-                                                            'canceled' => 'danger',
-                                                            default => 'secondary',
-                                                        };
-                                                    @endphp
-                                                    <span class="badge bg-{{ $warna }}">{{ ucfirst($reservasi->status) }}</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                @if($reservasi->fasilitas->count())
-                                    <h5 class="mt-4 mb-3">Fasilitas yang Dipesan</h5>
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Nama Fasilitas</th>
-                                                <th>Jumlah</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($reservasi->fasilitas as $f)
-                                                <tr>
-                                                    <td>{{ $f->nama_fasilitas }}</td>
-                                                    <td>{{ $f->pivot->jumlah }}</td>
-                                                    <td>Rp {{ number_format($f->pivot->subtotal, 0, ',', '.') }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                @endif
-
-                                <div class="mt-3">
-                                    <h5 class="mb-1">Total Biaya</h5>
-                                    <p class="mb-0">Rp {{ number_format($reservasi->total_biaya, 0, ',', '.') }}</p>
-                                    <small class="text-muted">Sudah termasuk tiket masuk dan fasilitas tambahan</small>
-                                </div>
-
-                            </div>
-                        @elseif(request()->has('search'))
-                            <div class="alert alert-warning mt-4">
-                                <p class="mb-0">Tidak ditemukan reservasi dengan email/nomor handphone tersebut.</p>
-                            </div>
-                        @endif
-                    </div>
+                <!-- Search Form -->
+                <div class="card p-4 mb-4">
+                    <h2 class="text-center mb-4">Cari Reservasi Anda</h2>
+                    <form method="GET" action="{{ route('reservasi.status') }}">
+                        <div class="mb-3">
+                            <label class="form-label">Email / Nomor HP <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="search" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Cari Reservasi</button>
+                    </form>
                 </div>
+
+                @if(isset($reservasi))
+                <!-- Reservation Details -->
+                <div class="card p-4">
+                    <h2 class="mb-4">Detail Reservasi</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-4 mb-md-0">
+                            <h5 class="fw-semibold mb-3">Informasi Pengunjung</h5>
+                            <p><strong>ID:</strong> {{ $reservasi->id }}</p>
+                            <p><strong>Nama:</strong> {{ $reservasi->nama_pengunjung }}</p>
+                            <p><strong>Email:</strong> {{ $reservasi->email }}</p>
+                            <p><strong>No. HP:</strong> {{ $reservasi->no_hp }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-semibold mb-3">Detail Kunjungan</h5>
+                            <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($reservasi->tanggal_kunjungan)->format('d F Y') }}</p>
+                            <p><strong>Jumlah Orang:</strong> {{ $reservasi->jumlah_orang }}</p>
+                            <p><strong>Status:</strong> 
+                                <span class="badge badge-{{ $reservasi->status }}">
+                                    {{ ucfirst($reservasi->status) }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    @if($reservasi->fasilitas->count())
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3">Fasilitas Tambahan</h5>
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Fasilitas</th>
+                                    <th class="text-end">Jumlah</th>
+                                    <th class="text-end">Harga</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($reservasi->fasilitas as $f)
+                                <tr>
+                                    <td>{{ $f->nama_fasilitas }}</td>
+                                    <td class="text-end">{{ $f->pivot->jumlah }}</td>
+                                    <td class="text-end">Rp {{ number_format($f->pivot->subtotal, 0, ',', '.') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
+
+                    <div class="total-box mb-4">
+                        <h5 class="fw-semibold mb-2">Total Pembayaran</h5>
+                        <p class="h4 fw-bold">Rp {{ number_format($reservasi->total_biaya, 0, ',', '.') }}</p>
+                        <small">Termasuk tiket masuk dan fasilitas tambahan</small>
+                    </div>
+
+                    @if($reservasi->status === 'disetujui')
+                    <div class="text-center">
+                        <a href="{{ route('cetak.tiket', $reservasi->id) }}" 
+                           target="_blank" 
+                           class="btn btn-primary">
+                           Cetak Tiket Masuk
+                        </a>
+                    </div>
+                    @endif
+                </div>
+                @elseif(request()->has('search'))
+                <div class="alert alert-warning text-center p-4 rounded">
+                    <h4 class="fw-semibold">Reservasi Tidak Ditemukan</h4>
+                    <p class="mb-0">Kami tidak dapat menemukan reservasi dengan email/nomor handphone tersebut.</p>
+                </div>
+                @endif
             </div>
         </div>
     </div>
 </section>
-
-<style>
-.hero-section {
-    margin-top: -56px;
-}
-.card {
-    border-radius: 15px;
-}
-.table th {
-    background-color: #f8f9fa;
-}
-.badge {
-    font-size: 0.9rem;
-    padding: 0.5em 0.75em;
-}
-</style>
 @endsection

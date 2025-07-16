@@ -14,7 +14,7 @@ class FrontendController extends Controller
 {
     public function beranda() {
          $fasilitas = FaniFasilitas::where('tipe_fasilitas', 'sewa')->get();
-          $galeri = Galeri::latest()->take(6)->get(); // Ambil 6 data terbaru
+          $galeri = Galeri::latest()->take(8)->get(); // Ambil 6 data terbaru
           $testimonis = \App\Models\Testimoni::latest()->take(4)->get(); // ambil 3 testimoni
          
           // Tambahkan statistik

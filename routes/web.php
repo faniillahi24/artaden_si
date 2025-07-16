@@ -26,6 +26,8 @@ Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservas
 Route::get('/cek-status', [ReservasiController::class, 'checkStatus'])->name('reservasi.status');
 Route::post('/ulasan', [FrontendController::class, 'kirimUlasan'])->name('kirim.ulasan');
 Route::post('/testimoni', [TestimoniController::class, 'store'])->name('testimoni.store');
+Route::get('/cetak-tiket/{id}', [ReservasiController::class, 'cetakTiket'])->name('cetak.tiket');
+
 
 /*
 |--------------------------------------------------------------------------
